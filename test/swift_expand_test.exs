@@ -23,6 +23,6 @@ defmodule JennyLite.Expander.Test do
     }
     """
     file = Path.join __DIR__, "test.swift"
-    assert expected == Expander.expand file
+    assert expected == Expander.expand_file file
   end
 end
