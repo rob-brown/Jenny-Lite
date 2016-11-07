@@ -72,14 +72,14 @@ defmodule JennyLite.Expander do
   end
 
   defp expand_spec?(line) do
-    line =~ ~r"^\s*/\*\s*<<<EXPAND_SPEC>>>\s*$"
+    line =~ ~r"^.*<<<EXPAND_SPEC>>>.*$"
   end
 
   defp start_expand?(line) do
-    line =~ ~r"^\s*<<<START_EXPAND>>>\s*\*/\s*$"
+    line =~ ~r"^.*<<<START_EXPAND>>>.*$"
   end
 
   defp end_expand?(line) do
-    line =~ ~r"^\s*/\*\s*<<<END_EXPAND>>>\s*\*/\s*$"
+    line =~ ~r"^.*<<<END_EXPAND>>>.*$"
   end
 end
