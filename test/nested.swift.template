@@ -1,0 +1,9 @@
+/* <<<EXPAND_INLINE>>>
+{
+  "template": "test.swift.template",
+  "inputs": {
+    "value": "It works!"
+  }
+}
+<<<EXPAND_INLINE>>> */
+/* <<<END_EXPAND_INLINE>>> */

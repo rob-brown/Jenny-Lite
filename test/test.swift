@@ -4,12 +4,12 @@ public final class Test {
 
   /* <<<EXPAND_INLINE>>>
   {
-    "template": "test.swift.template",
+    "template": "nested.swift.template",
     "inputs": {
       "value": "It works!"
     }
   }
   <<<EXPAND_INLINE>>> */
-  private let willBeOverriden = true
+  private let success = "It works!"
   /* <<<END_EXPAND_INLINE>>> */
 }
