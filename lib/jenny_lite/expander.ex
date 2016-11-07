@@ -9,44 +9,39 @@ defmodule JennyLite.Expander do
     |> (& File.write! file, &1).()
   end
 
-  def expand_string(string, relative_to, include_config? \\ true) when is_binary(string) and is_binary(relative_to) and is_boolean(include_config?) do
+  def expand_string(string, relative_to, include_spec? \\ true) when is_binary(string) and is_binary(relative_to) and is_boolean(include_spec?) do
     string
     |> String.split("\n")
     |> Stream.map(& &1 <> "\n")
-    |> expand_lines(relative_to, include_config?)
+    |> expand_lines(relative_to, include_spec?)
   end
 
-  defp expand_lines(lines, relative_to, include_config? \\ true) do
+  defp expand_lines(lines, relative_to, include_spec? \\ true) do
     lines
-    |> Enum.reduce({[], nil, :normal}, find_expansions(include_config?))
+    |> Enum.reduce({[], nil, :normal}, find_expansions(include_spec?))
     |> (fn {lines, nil, :normal} -> Enum.reverse lines end).()
     |> Enum.map(& expand_template &1, relative_to)
   end
 
   # TODO: Change this to use improper lists to avoid the reverse.
-  defp find_expansions(include_config?) do
+  defp find_expansions(include_spec?) do
     fn line, {lines, json_lines, state} ->
       cond do
-        state == :normal and line =~ ~r"^\s*/\*\s*<<<EXPAND_INLINE>>>\s*$" ->
-          if include_config? do
-            {[line | lines], [], :json}
-          else
-            {lines, [], :json}
-          end
-        state == :json and line =~ ~r"^\s*<<<EXPAND_INLINE>>>\s*\*/\s*$" ->
+        state == :normal and expand_spec?(line) and include_spec? ->
+          {[line | lines], [], :json}
+        state == :normal and expand_spec?(line) ->
+          {lines, [], :json}
+        state == :json and start_expand?(line) and include_spec? ->
           template = json_lines |> Enum.reverse |> new_template
-          if include_config? do
-            {[template, line | lines], nil, :drop}
-          else
-            {[template | lines], nil, :drop}
-          end
-        line =~ ~r"^\s*/\*\s*<<<END_EXPAND_INLINE>>>\s*\*/\s*$" ->
-          if include_config? do
+          {[template, line | lines], nil, :drop}
+        state == :json and start_expand?(line) ->
+          template = json_lines |> Enum.reverse |> new_template
+          {[template | lines], nil, :drop}
+        end_expand?(line) and include_spec? ->
             {[line | lines], nil, :normal}
-          else
+        end_expand?(line) ->
             {lines, nil, :normal}
-          end
-        state == :json and include_config? ->
+        state == :json and include_spec? ->
           {[line | lines], [line | json_lines], :json}
         state == :json ->
           {lines, [line | json_lines], :json}
@@ -74,5 +69,17 @@ defmodule JennyLite.Expander do
   defp new_template(json) do
     %{"template" => template, "inputs" => inputs} = Poison.decode! json
     Template.new template, inputs
+  end
+
+  defp expand_spec?(line) do
+    line =~ ~r"^\s*/\*\s*<<<EXPAND_SPEC>>>\s*$"
+  end
+
+  defp start_expand?(line) do
+    line =~ ~r"^\s*<<<START_EXPAND>>>\s*\*/\s*$"
+  end
+
+  defp end_expand?(line) do
+    line =~ ~r"^\s*/\*\s*<<<END_EXPAND>>>\s*\*/\s*$"
   end
 end

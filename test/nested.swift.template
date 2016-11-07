@@ -1,9 +1,9 @@
-/* <<<EXPAND_INLINE>>>
+/* <<<EXPAND_SPEC>>>
 {
   "template": "test.swift.template",
   "inputs": {
     "value": "It works!"
   }
 }
-<<<EXPAND_INLINE>>> */
-/* <<<END_EXPAND_INLINE>>> */
+<<<START_EXPAND>>> */
+/* <<<END_EXPAND>>> */

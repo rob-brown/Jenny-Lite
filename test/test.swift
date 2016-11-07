@@ -2,14 +2,14 @@ public final class Test {
 
   private let answer = 42
 
-  /* <<<EXPAND_INLINE>>>
+  /* <<<EXPAND_SPEC>>>
   {
     "template": "nested.swift.template",
     "inputs": {
       "value": "It works!"
     }
   }
-  <<<EXPAND_INLINE>>> */
+  <<<START_EXPAND>>> */
   private let success = "It works!"
-  /* <<<END_EXPAND_INLINE>>> */
+  /* <<<END_EXPAND>>> */
 }

@@ -10,16 +10,16 @@ defmodule JennyLite.Expander.Test do
 
       private let answer = 42
 
-      /* <<<EXPAND_INLINE>>>
+      /* <<<EXPAND_SPEC>>>
       {
         "template": "test.swift.template",
         "inputs": {
           "value": "It works!"
         }
       }
-      <<<EXPAND_INLINE>>> */
+      <<<START_EXPAND>>> */
       private let willBeOverriden = true
-      /* <<<END_EXPAND_INLINE>>> */
+      /* <<<END_EXPAND>>> */
     }
     """
     expanded = """
@@ -27,16 +27,16 @@ defmodule JennyLite.Expander.Test do
 
       private let answer = 42
 
-      /* <<<EXPAND_INLINE>>>
+      /* <<<EXPAND_SPEC>>>
       {
         "template": "test.swift.template",
         "inputs": {
           "value": "It works!"
         }
       }
-      <<<EXPAND_INLINE>>> */
+      <<<START_EXPAND>>> */
       private let success = "It works!"
-      /* <<<END_EXPAND_INLINE>>> */
+      /* <<<END_EXPAND>>> */
     }
     """
     file = Path.join __DIR__, "test.swift"
@@ -52,16 +52,16 @@ defmodule JennyLite.Expander.Test do
 
       private let answer = 42
 
-      /* <<<EXPAND_INLINE>>>
+      /* <<<EXPAND_SPEC>>>
       {
         "template": "nested.swift.template",
         "inputs": {
           "value": "It works!"
         }
       }
-      <<<EXPAND_INLINE>>> */
+      <<<START_EXPAND>>> */
       private let willBeOverriden = true
-      /* <<<END_EXPAND_INLINE>>> */
+      /* <<<END_EXPAND>>> */
     }
     """
     expanded = """
@@ -69,16 +69,16 @@ defmodule JennyLite.Expander.Test do
 
       private let answer = 42
 
-      /* <<<EXPAND_INLINE>>>
+      /* <<<EXPAND_SPEC>>>
       {
         "template": "nested.swift.template",
         "inputs": {
           "value": "It works!"
         }
       }
-      <<<EXPAND_INLINE>>> */
+      <<<START_EXPAND>>> */
       private let success = "It works!"
-      /* <<<END_EXPAND_INLINE>>> */
+      /* <<<END_EXPAND>>> */
     }
     """
     file = Path.join __DIR__, "test.swift"
