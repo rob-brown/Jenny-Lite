@@ -18,7 +18,10 @@ defmodule JennyLite.Mixfile do
   end
 
   defp escript do
-    [main_module: JennyLite.CLI]
+    [
+      main_module: JennyLite.CLI,
+      name: :jenny,
+    ]
   end
 
   defp deps do
